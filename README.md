@@ -1,0 +1,2 @@
+# aihelper
+一款基于We的AI助理工具集合网站；集成多种AI工具和接口，包括chatGPT，Midjourney，CodeWhisper等；帮助IT技术人员快速高效开展工作！企业内部也可以快速进行私有化部署
