@@ -1,6 +1,27 @@
-# iDealAIHelper
+<h1 align="center"><img src=".github/images/chatgpt-icon.svg" height="30" width="30"> iDealAIHelper</h1>
 
-#### Description
+<div align="center">
+
+<hr/>
+
+English / [简体中文](README.cn.md)
+
+One-Click to deploy well-designed ChatGPT web UI tool program.
+
+一键免费部署你的 ChatGPT 网页应用。
+
+[Demo]() / [Issues](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [Join Discord](https://discord.gg/) / [Buy Me a Coffee](https://www.buymeacoffee.com/iDealStudio)
+
+[演示]() / [反馈](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [QQ 群]() / [打赏开发者](.github/images/support.png)
+
+
+![cover](.github/images/cover.png)
+
+</div>
+
+### Description
+<hr/>
+
 iDealAI Assistant is a web-based system that encapsulates various AI tool interfaces. It has integrated the ChatGPT API interface (support for other AI platforms’ interfaces is under development).
 
 ChatGPT supports a shared mode using an openai account and also supports a personal independent billing method using one’s own API_key. It is suitable not only for individuals and others to share ChatGPT accounts, but also for domestic enterprises to independently deploy and provide to employees for use, solving the problem of inability to access openai’s interfaces in China.
@@ -18,7 +39,9 @@ This project thanks the work of experts such as acheong08. The shared mode basic
 
 In terms of deployment, we try to simplify it as much as possible so that users can quickly deploy and plug-and-play.
 
-#### Software Architecture
+### Software Architecture
+<hr/>
+
 The system is divided into two parts: the front-end and the back-end interface.
 
 1 The front-end uses technologies such as Vue3, TypeScript, Vite, and Naive-UI.
@@ -27,7 +50,8 @@ The system is divided into two parts: the front-end and the back-end interface.
 
 Both parts can be quickly deployed in containers.
 
-#### Installation
+### Installation
+<hr/>
 
 ##### Deploy using Docker.
 
@@ -46,6 +70,7 @@ note：how to get chatgpt_access_token parameter ：login [chat.openai.com]()，
 5. Access http://[your server ip]:8080 to see the login page (enter the default account/password: admin/admin). If you can log in successfully, the deployment is complete.
 
 ##### Manual Deployment
+
 
 ##### Frontend page packing and compiling:
 
@@ -84,7 +109,8 @@ server {
 5. After starting the Nginx web server, visit http://[your server ip] to see the login page (enter default username/password: admin/admin). If you can log in successfully, then the deployment is complete.
 
 
-#### System features
+### System features
+<hr/>
 
 Rich frontend interactive operations:
 1. A beautiful and concise web interface, using naive-ui
@@ -110,15 +136,8 @@ Modify user conversation restrictions
 6. Record request and conversation statistics
 
 
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-####  Instructions for use
+###  Instructions for use
+<hr/>
 
 After deployment, access the system via the IP address and port. The system already comes with 2 default users.
 
@@ -126,7 +145,13 @@ First, log in using the administrator account (admin/admin) and then create new 
 
 For detailed instructions, please refer to the help documentation.
 
-#### How to Contribution:
+### Contributor
+<hr/>
+
+[Contributors](https://github.com/ncepu-iDealStudio/iDealAIHelper/graphs/contributors)
+
+### How to Contribution:
+<hr/>
 
 1. Fork this repository
 2. Create a new branch called Feat_xxx
@@ -134,7 +159,16 @@ For detailed instructions, please refer to the help documentation.
 4. Create a new Pull Request
 
 
-#### Donation and Support
-If you find this project helpful for your work, you can donate and support us by scanning the QR code below. Your encouragement will motivate us to make it even better!
 
+### Donation and Support
+<hr/>
+
+If you find this project helpful for your work, you can donate and support us by scanning the QR code below. Your encouragement will motivate us to make it even better! 
+<div align="center">
 <img src=".github/images/donate.png" alt="donate" width="200" height="200" />
+<p>if you like our projects, buy us a coffee</p>
+</div>
+<div align="center">
+<img src=".github/images/support.png" alt="support" width="200" height="200" />
+<p>if you like our projects, support us with Alipay</p>
+</div>
