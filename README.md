@@ -136,3 +136,5 @@ For detailed instructions, please refer to the help documentation.
 
 #### Donation and Support
 If you find this project helpful for your work, you can donate and support us by scanning the QR code below. Your encouragement will motivate us to make it even better!
+
+<img src=".github/images/donate.png" alt="donate" width="200" height="200" />
