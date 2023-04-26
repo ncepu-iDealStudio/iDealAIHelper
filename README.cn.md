@@ -2,8 +2,6 @@
 
 <div align="center">
 
-<hr/>
-
 [English](README.md) / 简体中文
 
 One-Click to deploy well-designed ChatGPT web UI tool program.
