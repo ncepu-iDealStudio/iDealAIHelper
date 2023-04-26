@@ -1,72 +1,75 @@
-# iDealAIHelper（中文名：iDealAI助手）
+# iDealAIHelper
 
-#### 介绍
-iDealAI助手是一款封装了各类AI工具接口的套壳Web系统；目前已经对接集成了ChatGPT API接口(其他AI平台的接口支持，正在开发中)；
+#### Description
+iDealAI Assistant is a web-based system that encapsulates various AI tool interfaces. It has integrated the ChatGPT API interface (support for other AI platforms’ interfaces is under development).
 
-主要作用是可以以接口账号合租的方式使用AI工具；不仅适合个人与他人合租ChatGPT账号使用，也适合国内企业独立部署给员工使用，解决国内无法访问openai的接口的问题；
-
-系统使用chatGPT的方式有2种：
-
-1 共享模式
-
- 支持一个openai账号共享给大家一起使用；但每个人有独立的系统登录账号，会话能单独分开存储；
-
-2 独立模式
-
- 支持个人独立使用自己的API_key来使用；并实现了相应的账户管理以及历史会话存储、导出的功能；
+ChatGPT supports a shared mode using an openai account and also supports a personal independent billing method using one’s own API_key. It is suitable not only for individuals and others to share ChatGPT accounts, but also for domestic enterprises to independently deploy and provide to employees for use, solving the problem of inability to access openai’s interfaces in China.
 
 
-本项目后端部分感谢acheong08等大佬的工作；共享会话模式基本上延用了他的工作；我们重点扩充了独立模式下的会话处理以及前端的开发对接工作；
+There are two ways to use the system with ChatGPT:
 
-前端部分，感谢moeakwak的工作；在他的UI界面基础上，我们结合个人或企业内部员工使用的场景，在功能上做了更多的扩展和延伸；
+1 Shared mode
+It supports sharing one openai account for everyone to use together. However, each person has an independent system login account, and the sessions can be stored separately.
 
-在部署方面，做到尽量简化，让使用者能快速部署，开箱即用；
+2 Independent mode
+It supports individuals using their own API_key to use the system, and provides corresponding account management, history session storage, and export functions.
 
-#### 软件架构
-本系统分为前端部分和后端接口部分：
+This project thanks the work of experts such as acheong08. The shared mode basically continues his work, and we focus on expanding the session processing and front-end development docking work under the independent mode.
 
-1 前端采用Vue3+TypeScript+Vite+naive-ui等技术；
+In terms of deployment, we try to simplify it as much as possible so that users can quickly deploy and plug-and-play.
 
-2 后端采用Python+FastAPI框架；为简化部署，数据库采用SQLlite存储，也能扩展成MySQL；
+#### Software Architecture
+The system is divided into two parts: the front-end and the back-end interface.
 
-这两部分都能实现容器化快速部署；
+1 The front-end uses technologies such as Vue3, TypeScript, Vite, and Naive-UI.
 
-#### 安装使用
+2 The back-end uses the Python programming language and the FastAPI framework. To simplify deployment, the database uses SQLite storage, which can also be extended to MySQL.
 
-##### Docker方式部署
-1. 确保在服务器上安装了docker以及docker-compose软件；
-2. 下载本项目：
+Both parts can be quickly deployed in containers.
+
+#### Installation
+
+##### Deploy using Docker.
+
+1. Make sure that docker and docker-compose software are installed on the server.
+
+2. download project：
 `git clone https://gitee.com/ncepu-bj/iDeal-AI-Helper.git` ，
- 进入项目文件夹：
+ Enter the folder named "iDeal-AI-Helper"：
  `cd iDeal-AI-Helper`
-3. 查看系统配置文件：`deploy/config.conf`，开启共享模式需要配置`chatgpt_access_token`参数。注：chatgpt_access_token获取方法：打开登录[chat.openai.com]()后，打开[https://chat.openai.com/api/auth/session]()，获取accessToken字段，复制到配置文件中；
-4. 在项目根目录下运行：`docker-compose up -d`命令，如果出错请查看docker-compose版本，版本过低则需要升级。容器端口在docker-compose.yaml文件中有所定义，默认映射为8080端口，可以根据需求进行修改；
-5. 访问`http://[your server ip]:8080`，可以看到登录界面(输入默认账号/密码:admin/admin)，如果可以正常登录，则部署完成。
 
-##### 手工方式部署
+3. Modify the system configuration file：`deploy/config.conf`.If you enable the shared mode, you must configure the chatgpt_access_token parameter.
+note：how to get chatgpt_access_token parameter ：login [chat.openai.com]()，open [https://chat.openai.com/api/auth/session]()，you can get accessToken value，then copy it into your configuration file；
 
-##### 前端页面打包编译：
+4. Run the command docker-compose up -d in the project root directory. If an error occurs, please check the docker-compose version. If the version is too low, an upgrade is required. The container port is defined in the docker-compose.yaml file and is mapped to port 8080 by default. It can be modified according to requirements.
 
-1. 进入前端文件夹frontend中；如果已经有编译好的静态页面文件夹"dist"，则直接进入"后端部署部分";否则，进入下一步进行前端页面的打包编译；
-2. 运行`npm install`以及`npm run build`，打包编译生成前端静态页，在`frontend/dist`中；
+5. Access http://[your server ip]:8080 to see the login page (enter the default account/password: admin/admin). If you can log in successfully, the deployment is complete.
 
-##### 后端部署：
-1. 创建Python虚拟环境(推荐版本V3.10)并激活；
-2. 进入backend文件夹，安装系统依赖包，运行：`pip install -r requirements.txt`；
-3. 在backend文件夹中，运行：`uvicorn main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips '*' --log-config config/logging_config.yaml`；
-4. 将目录 `frontend/dist/`作为Web的发布目录；可以通过nginx对前端与后端服务进行配置，可以参考以下配置：
+##### Manual Deployment
+
+##### Frontend page packing and compiling:
+
+1. Go to the frontend folder “frontend”; If there is already a compiled static page folder “dist”, go directly to the “Backend Deployment” section. Otherwise, proceed to the next step to package and compile the frontend page.
+2. Run npm install and npm run build to package and compile the frontend static page. The compiled files will be generated in the frontend/dist folder.
+
+##### Backend Deployment:
+
+1. Create a Python virtual environment (recommended version V3.10) and activate it;
+2. Enter the backend folder, install system dependencies by running: pip install -r requirements.txt;
+3. In the backend folder, run: uvicorn main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips '*' --log-config config/logging_config.yaml;
+4. Use the frontend/dist/ directory as the publishing directory for the web. You can configure the frontend and backend services using nginx, as shown in the following configuration example：
 
 ```
 server {
 	listen 80;
 	server_name [your server name];
 
-    # 前端
+    # ui
     location / {
         root [your project abspath]/frontend/dist;
         try_files $uri $uri/ /index.html;
     }
-    # 接口
+    # api
     location /api/ {
         proxy_pass http://127.0.0.1:8000/;
         proxy_set_header Host $host;
@@ -78,44 +81,58 @@ server {
     }
 }
 ```
-5. 启动Web服务器Nginx后，访问`http://[your server ip]`，可以看到登录界面(输入默认账号/密码:admin/admin)，如果可以正常登录，则部署完成。
-
-#### 系统特点
-功能丰富的前端交互操作
-1. 美观简洁的 web 界面，使用 naive-ui
-2. 适配夜间模式
-3. 支持一键复制回复内容或代码内容
-4. 支持显示回复中的图像/表格/数学公式/代码语法高亮
-5. 一键导出对话为Markdown文件
-6. 动态显示回复内容
-7. 支持停止生成对话
-
-多用户共享管理
-1. 共享一个 ChatGPT 账号，支持创建管理多用户账号；
-2. 不同用户创建的 ChatGPT 对话互相分隔，不会相互影响；
-3. 多用户同时请求时，会进行排队处理；
-
-完善的管理功能
-1. 管理员可设置用户的最大对话数量、对话次数限制等
-2. 提供实时更新的服务使用状态，从而能够避开使用高峰
-3. 修改用户对话限制
-4. 管理对话/查看成员对话记录/分配对话给特定用户
-5. 实时查看日志
-6. 记录请求及对话统计信息
-
-#### 使用说明
-部署完成后，通过ip地址和端口访问；系统默认已经添加了2个用户；
-先使用管理员账号（admin/admin）登录；然后进行用户的创建；
-
-详细使用说明，见帮助文档；
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+5. After starting the Nginx web server, visit http://[your server ip] to see the login page (enter default username/password: admin/admin). If you can log in successfully, then the deployment is complete.
 
 
-#### 捐助和支持
-如果您觉得这个项目对您的工作有帮助，可以通过扫描下面的赞赏码进行捐助，鼓励我们将工作做的更好！
+#### System features
+
+Rich frontend interactive operations:
+1. A beautiful and concise web interface, using naive-ui
+2. Adaptable to a dark mode
+3. Support for one-click copying of response content or code content
+Support for displaying images/tables/mathematical formulas/code syntax highlighting in responses
+4. One-click export of conversations as Markdown files
+5. Dynamically display response content
+6. Support for stopping conversation generation
+7. Multi-user shared management
+
+Share a ChatGPT account, support for creating and managing multiple user accounts:
+1. Different users’ ChatGPT conversations are separated from each other and do not affect each other
+2. ultiple users requesting at the same time will be queued for processing
+
+Perfect management functions:
+1. Administrators can set the maximum number of conversations for users, conversation frequency limits, etc.
+2. rovide real-time updates of service usage status to avoid peak usage
+Modify user conversation restrictions
+3. Manage conversations/view member conversation records/assign.
+4. conversations to specific users
+5. Real-time view of logs
+6. Record request and conversation statistics
+
+
+#### Contribution
+
+1.  Fork the repository
+2.  Create Feat_xxx branch
+3.  Commit your code
+4.  Create Pull Request
+
+
+####  Instructions for use
+
+After deployment, access the system via the IP address and port. The system already comes with 2 default users.
+
+First, log in using the administrator account (admin/admin) and then create new user accounts.
+
+For detailed instructions, please refer to the help documentation.
+
+#### How to Contribution:
+
+1. Fork this repository
+2. Create a new branch called Feat_xxx
+3. Submit your code changes
+4. Create a new Pull Request
+
+
+#### Donation and Support
+If you find this project helpful for your work, you can donate and support us by scanning the QR code below. Your encouragement will motivate us to make it even better!
