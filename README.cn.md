@@ -6,7 +6,7 @@
 
 One-Click to deploy well-designed ChatGPT web UI tool program.
 
-一键免费部署你的 ChatGPT 网页应用。
+快速免费部署你的 ChatGPT 网页应用，合租共享独立使用自由选择。
 
 [Demo](http://ai.quwancode.com) / [Issues](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [Join Discord](https://discord.gg/) / [Buy Me a Coffee](https://www.buymeacoffee.com/iDealStudio)
 
