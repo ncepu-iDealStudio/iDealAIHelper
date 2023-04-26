@@ -8,9 +8,9 @@ One-Click to deploy well-designed ChatGPT web UI tool program.
 
 一键免费部署你的 ChatGPT 网页应用。
 
-[Demo]() / [Issues](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [Join Discord](https://discord.gg/) / [Buy Me a Coffee](https://www.buymeacoffee.com/iDealStudio)
+[Demo](http://ai.quwancode.com) / [Issues](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [Join Discord](https://discord.gg/) / [Buy Me a Coffee](https://www.buymeacoffee.com/iDealStudio)
 
-[演示]() / [反馈](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [QQ 群]() / [打赏开发者](.github/images/support.png)
+[演示](http://ai.quwancode.com) / [反馈](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [QQ 群]() / [打赏开发者](.github/images/support.png)
 
 
 ![cover](.github/images/cover.png)
