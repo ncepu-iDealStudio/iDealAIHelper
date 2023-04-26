@@ -119,3 +119,5 @@ server {
 
 #### 捐助和支持
 如果您觉得这个项目对您的工作有帮助，可以通过扫描下面的赞赏码进行捐助，鼓励我们将工作做的更好！
+
+<img src=".github/images/donate.png" alt="donate" width="200" height="200" />
