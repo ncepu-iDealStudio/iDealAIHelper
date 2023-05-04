@@ -1,0 +1,9 @@
+backend/venv/
+frontend/package-lock.json
+frontend/components.d.ts
+.idea/
+app/__pycache__/
+app/api/__pycache__/
+config/__pycache__/
+utils/__pycache__/
+frontend/src/views/conversation/components/StatusCard copy.vue

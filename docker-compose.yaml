@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  chatgpt-share:
+    image: ideal-ai-helper
+    build: .
+    container_name: ideal-ai-helper
+    restart: always
+    network_mode: bridge
+    ports:
+      - 8080:80
+    volumes:
+      - deploy/data:/app/backend/data
+      - deploy/config.conf:/app/backend/config/config.conf
