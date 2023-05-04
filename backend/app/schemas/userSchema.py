@@ -11,6 +11,7 @@
 import datetime
 from fastapi_users import schemas
 from pydantic import BaseModel
+from pydantic.types import conint
 
 from config.enums import ChatStatus
 
@@ -20,6 +21,8 @@ class UserRead(schemas.BaseUser[int]):
     username: str
     nickname: str
     api_key: str | None
+    allow_context: bool | None
+    threshold: int | None
     email: str
     active_time: datetime.datetime | None
 
@@ -79,3 +82,11 @@ class AccountSchema(BaseModel):
 
 class KeySchema(BaseModel):
     api_key: str | None
+
+
+class UserAllowContext(BaseModel):
+    allow_context: bool
+
+
+class UserContextThreshold(BaseModel):
+    threshold: conint(lt=30)

@@ -38,6 +38,7 @@ export function deleteUserApi(user_id: number) {
   return axios.delete(ApiUrl.UserList + `/${user_id}`);
 }
 
+// 修改密码
 export function resetUserPasswordApi(user_id: number, data: any) {
   return axios.patch(ApiUrl.UserList + `/${user_id}/reset-password`, data, {
     headers: {
@@ -54,6 +55,29 @@ export function updateUserApiKey(user_id: number, data:any) {
     },
   });
 }
+
+// 是否开启上下文
+export function AllowContest(user_id: number, data:any) {
+  return axios.patch(ApiUrl.User + `/${user_id}/allow_context` , data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+// 上下文阈值/条数
+export function SetThreshold(user_id: number, data:any) {
+  return axios.patch(ApiUrl.User + `/${user_id}/set_threshold` , data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+// 获取 apiKey 统计
+export function getBillingInfoAPI() {
+  return axios.get<any>(ApiUrl.Billing_info);
+} 
 
 export function updateUserLimitApi(user_id: number, limit: LimitSchema) {
   return axios.post(ApiUrl.UserList + `/${user_id}/limit`, limit);

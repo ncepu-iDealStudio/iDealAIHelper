@@ -16,6 +16,7 @@ class ChatGPTV3Manager:
         """
         self.chatbot = AsyncChatGptV3Bot(api_key=api_key)
         self.semaphore = asyncio.Semaphore(1)
+        self.image_keywords = ["image", "图片", "create image", "生成图片"]
 
     def is_busy(self):
         """是否在对话中
@@ -52,6 +53,9 @@ class ChatGPTV3Manager:
         """
         if model_name is not None and model_name != ChatModels.unknown:
             self.chatbot.engine = model_name.value
+        for keyword in self.image_keywords:
+            if keyword in message:
+                return self.chatbot.get_image(prompt=message, convo_id=chat_id)
         return self.chatbot.ask(message, role, chat_id, timeout=timeout)
 
     def reset_chat(self, chat_id: str = None):
@@ -66,3 +70,10 @@ class ChatGPTV3Manager:
         :return: int: Response.status_code
         """
         return await self.chatbot.verify_api_key()
+
+    async def billing_info(self):
+        return self.chatbot.billing_info()
+
+    async def get_image(self, message, chat_id, number: int = 1, size: str = "512x512"):
+        return self.chatbot.get_image(message, chat_id, number, size)
+

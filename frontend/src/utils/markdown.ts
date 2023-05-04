@@ -9,6 +9,6 @@ const md = new MarkdownIt({
   typographer: true,
 })
   .use(markdownItKatex)
-  .use(markdownItHighlight, { hljs });
+  .use(markdownItHighlight, { hljs })
 
 export default md;

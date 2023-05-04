@@ -1,82 +1,65 @@
+
 <template>
-  <n-card content-style="padding: 0;">
-    <n-collapse @update:expanded-names="handleExpand">
-      <n-collapse-item :title="$t('commons.serverStatus')" name="serverStatus">
-        <n-list hoverable show-divider>
-          <n-list-item>
-            <div class="flex flex-row justify-between content-center">
-              <div><n-icon class="mr-1"><md-people /></n-icon>{{ $t("commons.activeUserIn5m") }}</div>
-              <div>{{ serverStatus.active_user_in_5m }}</div>
-            </div>
-          </n-list-item>
-          <n-list-item>
-            <div class="flex flex-row justify-between content-center">
-              <div><n-icon class="mr-1"><md-people /></n-icon>{{ $t("commons.activeUserIn1h") }}</div>
-              <div>{{ serverStatus.active_user_in_1h }}</div>
-            </div>
-          </n-list-item>
-          <n-list-item>
-            <div class="flex flex-row justify-between content-center">
-              <div><n-icon class="mr-1"><md-people /></n-icon>{{ $t("commons.activeUserIn1d") }}</div>
-              <div>{{ serverStatus.active_user_in_1d }}</div>
-            </div>
-          </n-list-item>
-          <n-list-item>
-            <div class="flex flex-row justify-between content-center">
-              <div><n-icon class="mr-1">
-                  <EventBusyFilled />
-                </n-icon>{{ $t("commons.isChatbotBusy") }}</div>
-              <div>{{ serverStatus.is_chatbot_busy ? $t("commons.yes") : $t("commons.no") }}</div>
-            </div>
-          </n-list-item>
-          <n-list-item>
-            <div class="flex flex-row justify-between content-center">
-              <div><n-icon class="mr-1">
-                  <QueueFilled />
-                </n-icon>{{ $t("commons.chatbotWaitingCount") }}</div>
-              <div>{{ serverStatus.chatbot_waiting_count }}</div>
-            </div>
-          </n-list-item>
-        </n-list>
-      </n-collapse-item>
-    </n-collapse>
-  </n-card>
-</template> 
+  <n-space vertical>
+    <n-cascader v-model:value="value" placeholder="prompt" :expand-trigger="hoverTrigger ? 'hover' : 'click'"
+      :options="options" :check-strategy="checkStrategyIsChild ? 'child' : 'all'" :show-path="showPath" clearable="true"
+      :filterable="filterable" @update:value="handleUpdateValue" />
+  </n-space>
+</template>
 
-<script setup lang="ts">
-import { computed, ref } from 'vue';
-import { getServerStatusApi } from "@/api/status"
-import { ServerStatusSchema } from '@/types/schema';
-import { MdPeople } from '@vicons/ionicons4';
-import { EventBusyFilled, QueueFilled } from '@vicons/material';
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
-const serverStatus = ref<ServerStatusSchema>({});
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { CascaderOption } from 'naive-ui'
+import { getPromptListAPI } from "@/api/prompt"
 
-const isExpaned = ref(false);
+const checkStrategyIsChild = ref(true)
+const showPath = ref(false)
+const hoverTrigger = ref(false)
+const filterable = ref(true)
+const value = ref('prompt')
 
-const handleExpand = (names: string[]) => {
-  if (names.length > 0) {
-    isExpaned.value = true;
-    updateData();
-  } else {
-    isExpaned.value = false;
-  }
-};
+function getOptions(depth = 2, iterator = 1, parent_id = '') {
 
-const updateData = () => {
-  if (isExpaned.value)
-    getServerStatusApi().then((res) => {
-      // console.log(res.data);
-      serverStatus.value = res.data;
-    });
-};
-updateData();
-setInterval(updateData, 5000);
-</script>
+  const options: CascaderOption[] = []
 
-<style>
-div.n-collapse-item {
-  padding: 1em;
+  if (iterator === 1) {
+    for (let i = 0; i < data.value.data.parent_result.length; i++) {
+      options.push({
+        value: data.value.data.parent_result[i].prompt_id,
+        label: data.value.data.parent_result[i].category,
+        children: getOptions(depth, 2, data.value.data.parent_result[i].prompt_id)
+      })
+    }
+
+  } else if (iterator === depth) {
+    for (let i = 0; i < data.value.data.son_result.length; i++) {
+      if (data.value.data.son_result[i].prompt_parent_id === parent_id) {
+        options.push({
+          value: data.value.data.son_result[i].prompt,
+          label: data.value.data.son_result[i].title,
+        })
+      }
+    }
+  } 
+  return options
 }
-</style>
+
+const data = ref()
+const options = ref()
+
+const setPrompts: any = async ()=>{
+  data.value = await getPromptListAPI()
+  console.log(data.value.data,data.value.data.parent_result.length)
+  options.value = getOptions()
+}
+setPrompts()
+
+// 传递 选中的 prompt 给父组件
+const emitPromt = defineEmits(["chosePrompt"])
+const givePrompt = (value: any) => {
+  emitPromt("chosePrompt", value)
+}
+const handleUpdateValue = (value: string, option: CascaderOption) => {
+  givePrompt(value)
+}
+</script>

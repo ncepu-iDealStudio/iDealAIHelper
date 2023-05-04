@@ -4,6 +4,7 @@ export type ChatV3Message = {
     message?: string;
     typing?: boolean;
     content?: string;
+    is_image?: boolean;
   };
   
   export type ChatConversationV3Detail = {

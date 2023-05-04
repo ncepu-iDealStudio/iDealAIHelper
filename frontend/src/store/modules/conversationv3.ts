@@ -8,7 +8,7 @@ import {
 } from "@/api/chatv3";
 import { ConversationSchema } from "@/types/schema";
 
-const useConversationV3Store = defineStore("conversation", {
+const useConversationV3Store = defineStore("conversationv3", {
   state: (): any => ({
     conversationsv3: [] as Array<ConversationSchema>,
     conversationV3DetailMap: {} as Record<string, ChatConversationV3Detail>, // conv_id => ChatConversationV3Detail
@@ -20,11 +20,11 @@ const useConversationV3Store = defineStore("conversation", {
       this.$patch({ conversationsv3: result });
     },
     async fetchConversationV3History(chat_id: string) {
+      console.log(this.conversationV3DetailMap)
       // 解析历史记录
       if (this.conversationV3DetailMap.hasOwnProperty(chat_id)) {
         return this.conversationV3DetailMap[chat_id];
       }
-
       const result = (await getConversationV3HistoryApi(chat_id)).data;
 
       const conv_detail: ChatConversationV3Detail = {
@@ -39,13 +39,22 @@ const useConversationV3Store = defineStore("conversation", {
         conv_detail.messageList?.push({
           id: result[i].id,
           message: result[i].content,
-          author_role: "user"
+          author_role: "user",
+          is_image: false
         })
-
-        conv_detail.messageList?.push({
-          id: result[i].id,
-          message: result[i].response
-        })
+        if(result[i].is_image){
+          conv_detail.messageList?.push({
+            id: result[i].id,
+            message: "data:image/jpeg;base64,"+result[i].response,
+            is_image: true
+          })
+        }else{
+          conv_detail.messageList?.push({
+            id: result[i].id,
+            message: result[i].response,
+            is_image: false
+          })
+        }
 
       }
       this.$patch({

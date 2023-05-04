@@ -2,6 +2,7 @@
 A simple wrapper for the official ChatGPT API
 """
 import argparse
+import datetime
 import json
 import os
 import sys
@@ -15,6 +16,7 @@ import requests
 import tiktoken
 
 from config.globals import config
+from utils.common import get_last_day_of_month
 from . import __version__
 from . import typings as t
 from .utils import create_completer
@@ -109,6 +111,8 @@ class Chatbot:
         """
         Add a message to the conversation
         """
+        if self.conversation.get(convo_id, None) is None:
+            self.conversation[convo_id] = []
         self.conversation[convo_id].append({"role": role, "content": message})
 
     def transfer_message_to_conversation(
@@ -500,11 +504,61 @@ class AsyncChatGptV3Bot(Chatbot):
 
     async def verify_api_key(self):
         response = self.session.get(
-                config.get("API_URL") or "https://api.openai.com/v1/models",
-                headers={"Authorization": f"Bearer {self.api_key}"})
+            config.get("API_URL") or "https://api.openai.com/v1/models",
+            headers={"Authorization": f"Bearer {self.api_key}"})
         return response.status_code
 
+    def billing_info(self):
+        usage_url = "https://api.openai.com/dashboard/billing/subscription"
+        res = self.session.get(
+            usage_url,
+            headers={"Authorization": f"Bearer {self.api_key}"},
+        )
+        if res.status_code == 200:
+            data = res.json()
+        else:
+            raise Exception(
+                f"API request failed with status code {res.status_code}: {res.text}"
+            )
+        message = {
+            'total_granted': data['hard_limit_usd'],
+            'used_amount': "{:.3f}".format(data['soft_limit_usd'] / 100),
+            'total_available': data['hard_limit_usd'] - data['soft_limit_usd'] / 100,
+        }
+        yield message
 
+    async def get_image(self, prompt: str, convo_id: str = "default", number: int = 1, size: str = "512x512",
+                  response_format: str = "b64_json"):
+        """
+
+        :param prompt: A text description of the desired image(s). The maximum length is 1000 characters.
+        :param convo_id: chat id
+        :param number: The number of images to generate. Must be between 1 and 10.
+        :param size: The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
+        :param response_format: str: The format in which the generated images are returned. Must be one of url or b64_json.
+        :return: json dict example: {'created': 1682644276, 'data': [{'url': 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-GY7G68m620VG4Idmo3Ddp9ZW/user-0cGKoU5ankZJFumni0FjYZ9U/img-NZOz1Wn6aBT5DQtATtwL6eam.png?st=2023-04-28T00%3A11%3A16Z&se=2023-04-28T02%3A11%3A16Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-04-27T20%3A34%3A23Z&ske=2023-04-28T20%3A34%3A23Z&sks=b&skv=2021-08-06&sig=zpW9fj9ybXyOkXyZrTNCTwlyRyGUX94aE8v5t0HD9ig%3D'}]}
+        """
+        usage_url = "https://api.openai.com/v1/images/generations"
+        self.add_to_conversation(prompt, "user", convo_id=convo_id)
+        res = self.session.post(
+            usage_url,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+            },
+            data=json.dumps({
+                "prompt": prompt,
+                "n": number,
+                "size": size,
+                "response_format": response_format
+            })
+        )
+        if res.status_code == 200:
+            data = res.json()
+        else:
+            raise Exception(f"API request failed with status code {res.status_code}: {res.text}")
+        self.add_to_conversation(data['data'][0].get(response_format), "user", convo_id=convo_id)
+        yield data['data']
 class ChatbotCLI(Chatbot):
     """
     Command Line Interface for Chatbot

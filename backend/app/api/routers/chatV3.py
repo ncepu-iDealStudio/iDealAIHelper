@@ -27,6 +27,7 @@ from app.models.chatDetailModel import ChatDetail
 from app.models.chatModel import Chat
 from app.models.userModel import User
 from app.schemas.chatSchema import CreateChatSchema
+from app.schemas.chatDetailSchema import GenImageSchema
 from config.enums import ChatStatus, ChatModels
 from db.database import get_async_session_context
 from utils.exceptions import InvalidParamsException, AuthorityDenyException, DataBaseException
@@ -41,7 +42,7 @@ router = APIRouter()
 
 # 获取chat列表
 @router.get("/chat", tags=["chat"])
-async def get_all_chat( _user: User = Depends(current_active_user)):
+async def get_all_chat(_user: User = Depends(current_active_user)):
     """get chat lists of current User
 
     :param _user: current User
@@ -101,7 +102,7 @@ async def add_chat(createChatSchema: CreateChatSchema, user_id: int = None, _use
 
 # 删除chat会话
 @router.delete("/chat/{chat_id}", tags=["chat"])
-async def delete_chat(chat_id:str=None, _user: User = Depends(current_active_user)):
+async def delete_chat(chat_id: str = None, _user: User = Depends(current_active_user)):
     """delete a chat
 
     :param chat_id: id of the chat
@@ -125,6 +126,7 @@ async def delete_chat(chat_id:str=None, _user: User = Depends(current_active_use
         except Exception as e:
             raise DataBaseException(str(e))
         return response(200, message=get_http_message(200))
+
 
 # 获取chat会话历史信息
 @router.get("/chat/{chat_id}", tags=["chat"])
@@ -290,20 +292,24 @@ async def chat(websocket: WebSocket):
                             'role': "assistant"
                         })
                     chatgpt_manager.load_chats(messages=chat_history, chat_id=chat_id)
-
                 # 调用chatgpt_manager的ask方法提问
                 async for data in chatgpt_manager.ask(message,
                                                       chat_id=chat_id,
                                                       timeout=timeout,
                                                       model_name=model_name):
+                    is_image = False
+                    if type(data) is list:
+                        data = data[0].get("b64_json")
+                        is_image = True
+
                     reply = {
                         "type": "message",
                         "message": data,
                         "chat_id": chat_id,
                         "chat_detail_id": chat_detail_id,
                         "model_name": model_name.value,
+                        "is_image": is_image,
                     }
-
                     await websocket.send_json(reply)
             except Exception as e:
                 # 修复 message 为 None 时的错误
@@ -328,7 +334,7 @@ async def chat(websocket: WebSocket):
                             chat_detail_model = ChatDetail(chat_detail_id=chat_detail_id, chat_id=chat_id,
                                                            user_id=user.id,
                                                            content=message, response=data, create_time=current_time,
-                                                           )
+                                                           is_image=is_image)
                             session.add(chat_detail_model)
                         except Exception as e:
                             logger.warning(e)
@@ -342,7 +348,7 @@ async def chat(websocket: WebSocket):
                             chat_detail_model = ChatDetail(chat_detail_id=chat_detail_id, chat_id=chat_id,
                                                            user_id=user.id,
                                                            content=message, response=data, create_time=current_time,
-                                                           )
+                                                           is_image=is_image)
                             session.add(chat_detail_model)
                         except Exception as e:
                             logger.warning(e)
@@ -358,7 +364,7 @@ async def chat(websocket: WebSocket):
                     chat_detail_model = ChatDetail(chat_detail_id=chat_detail_id, chat_id=chat_id,
                                                    user_id=user.id,
                                                    content=message, response=data, create_time=current_time,
-                                                   )
+                                                   is_image=is_image)
                     session.add(chat_detail_model)
 
                 # 扣除一次对话次数
@@ -423,7 +429,7 @@ async def chat(websocket: WebSocket):
             (user.id, model_name.value, ask_stop_time - ask_start_time, stop_time - start_time))
 
 
-@router.get("/token", tags=["token count"])
+@router.get("/token", tags=["account"])
 async def get_token(api_key: str, chat_id: str):
     """get token_count
 
@@ -460,3 +466,26 @@ async def verify(user: User = Depends(current_active_user)):
     else:
         return response(4001, "认证失败，请检查api_key", result="认证失败，请检查api_key")
 
+
+@router.get("/billing_info", tags=["account"])
+async def billing_info(user: User = Depends(current_active_user)):
+    try:
+        res = await ChatGPTManagerFactory.get_chatgpt_manager(api_key=f"{user.api_key}").billing_info()
+        return jsonable_encoder(res)
+    except Exception as e:
+        logger.error(e)
+        return response(4002, "账号信息获取失败", result="账号信息获取失败")
+
+
+@router.post("/gen_image", tags=["chat"])
+async def gen_image(genImageSchema: GenImageSchema, user: User = Depends(current_active_user)):
+    try:
+        chat_manager = ChatGPTManagerFactory.get_chatgpt_manager(api_key=f"{user.api_key}")
+
+        res = await chat_manager.get_image(genImageSchema.message, genImageSchema.chat_id,
+                                           genImageSchema.number if genImageSchema.number else 1,
+                                           genImageSchema.size if genImageSchema.size else "1024x1024")
+        return jsonable_encoder(res)
+    except Exception as e:
+        logger.error(e)
+        return response(4003, "image gen failed", result="image gen failed")

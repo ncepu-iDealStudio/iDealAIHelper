@@ -2,7 +2,7 @@
 [DATABASE]
 # 是否在日志打印sql语句
 print_sql = false
-database_url : sqlite+aiosqlite:///db/database.db
+database_url : sqlite+aiosqlite:///data/database.db
 
 # 数据库初始化
 [INITIAL_DATABASE]
