@@ -102,6 +102,8 @@ import { useRoute } from "vue-router";
 import { DropdownOption } from "naive-ui";
 import { ref, computed, h } from "vue";
 import UserProfileCard from "./UserProfileCard.vue";
+import AccountInfo from "./AccountInfo.vue";
+
 import { popupResetUserPasswordDialog } from "@/utils/renders";
 import { resetUserPasswordApi } from "@/api/user";
 
@@ -111,7 +113,7 @@ const appStore = useAppStore();
 const route = useRoute();
 const version = "v" + import.meta.env.PACKAGE_VERSION;
 
-console.log(route);
+// console.log(route);
 
 const isInAdmin = computed(() => {
   return route.path.startsWith("/admin");
@@ -150,7 +152,6 @@ const languageOptions = [
     },
   },
 ];
-
 const getOptions = (): Array<DropdownOption> => {
   const options: Array<DropdownOption> = [
     {
@@ -161,6 +162,17 @@ const getOptions = (): Array<DropdownOption> => {
           Dialog.info({
             title: t("commons.userProfile"),
             content: () => h(UserProfileCard, {}, {}),
+          }),
+      },
+    },
+    {
+      label: "账户信息",
+      key: "accountInfo",
+      props: {
+        onClick: () =>
+          Dialog.info({
+            title: "账户信息",
+            content: () => h(AccountInfo, {}, {}),
           }),
       },
     },
@@ -184,7 +196,7 @@ const getOptions = (): Array<DropdownOption> => {
             onPositiveClick: async () => {
               await userStore.logout();
               Message.success(t("commons.logoutSuccess"));
-              await router.push({ path: "/" });
+              await router.push({ path: "/login" });
             },
           }),
       },
@@ -222,11 +234,6 @@ const jumpToAdminOrConv = async () => {
 // 处理切换路由请求
 const handleChangeConversationType = () => {
   if (route.fullPath === "/conversation") {
-    // if (userStore?.$state?.user?.api_key) {
-    //   router.push("/conversationv3");
-    // } else {
-    //   alert("api_key不存在");
-    // }
     router.push("/conversationv3");
   } else {
     router.push("/conversation");

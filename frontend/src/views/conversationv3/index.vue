@@ -4,7 +4,7 @@
     <div class="h-full flex flex-col md:flex-row md:space-x-4">
       <!-- 左栏 -->
       <div class="md:w-1/4 md:min-w-1/4 w-full flex flex-col space-y-4 md:h-full">
-        <StatusCard />
+        <StatusCard @chose-prompt="show" />
         <n-card class="h-full flex-col left-col" content-style="padding: 4px;">
           <div class="flex box-content m-2">
             <n-button
@@ -158,7 +158,7 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore, useConversationV3Store } from "@/store";
+import { useConversationV3Store, useUserStore } from "@/store";
 import { ConversationSchema } from "@/types/schema";
 import { computed, h, onMounted, ref, watch } from "vue";
 import { Dialog, LoadingBar, Message } from "@/utils/tips";
@@ -187,7 +187,14 @@ import {
 import { saveAs } from "file-saver";
 import HistoryContent from "@/views/conversationv3/components/HistoryContent.vue";
 
-import { getConvV3MessageListFromId } from "@/utils/conversation";
+import { getConvV3MessageListFromId } from "@/utils/conversationv3";
+
+// 接收子组件 传递的 prompt 选项
+const show = (e: any) => {
+  inputValue.value = e;
+  console.log(e);
+};
+
 const themeVars = useThemeVars();
 
 const { t } = useI18n();
@@ -244,6 +251,7 @@ const currentMessageListDisplay = computed(() => {
   const chat_id = currentConversation.value?.chat_id;
   if (!chat_id) return [];
   let result = getConvV3MessageListFromId(chat_id);
+  console.log("result1", result);
   if (currentActiveMessages.value.length > 0) {
     result = result.concat(currentActiveMessages.value);
   }
@@ -448,6 +456,7 @@ const sendMsg = async () => {
     message: "",
     author_role: "assistent",
     typing: true,
+    is_image: false,
   };
   const wsUrl = getAskWebsocketV3ApiUrl();
   let wsErrorMessage: string | null = null;
@@ -471,6 +480,7 @@ const sendMsg = async () => {
       // console.log(reply)
       currentActiveMessageRecv.value!.message = reply.message;
       currentActiveMessageRecv.value!.id = reply.chat_id;
+      currentActiveMessageRecv.value!.is_image = reply.is_image;
       if (newConversation.value) {
         newConversation.value.chat_id = reply.chat_id;
         if (currentChatId.value !== newConversation.value.chat_id) {
@@ -503,11 +513,24 @@ const sendMsg = async () => {
         id: random_strid,
         message: currentActiveMessageSend.value?.message,
         author_role: "user",
+        is_image: false,
       });
-      conv_detail.messageList?.push({
-        id: random_strid,
-        message: currentActiveMessageRecv.value?.message,
-      });
+      console.log(currentActiveMessageRecv.value);
+      if (currentActiveMessageRecv.value?.is_image) {
+        conv_detail.messageList?.push({
+          id: random_strid,
+          message:
+            "data:image/jpeg;base64," + currentActiveMessageRecv.value?.message,
+          is_image: true,
+        });
+      } else {
+        conv_detail.messageList?.push({
+          id: random_strid,
+          message: currentActiveMessageRecv.value?.message,
+          is_image: false,
+        });
+      }
+
       currentActiveMessageSend.value = null;
       currentActiveMessageRecv.value = null;
     } else {

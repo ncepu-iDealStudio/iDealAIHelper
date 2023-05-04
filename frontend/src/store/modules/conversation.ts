@@ -15,8 +15,6 @@ import { ConversationSchema } from "@/types/schema";
 const useConversationStore = defineStore("conversation", {
   state: (): any => ({
     conversations: [] as Array<ConversationSchema>,
-    conversationsv3: [] as Array<ConversationSchema>,
-    conversationV3DetailMap: {} as Record<string, ChatConversationDetail>, // conv_id => ChatConversationDetail
     conversationDetailMap: {} as Record<string, ChatConversationDetail>, // conv_id => ChatConversationDetail
   }),
   getters: {},
@@ -24,10 +22,6 @@ const useConversationStore = defineStore("conversation", {
     async fetchAllConversations() {
       const result = (await getAllConversationsApi()).data;
       this.$patch({ conversations: result });
-    },
-    async fetchAllConversationsv3() {
-      const result = (await getAllConversationsV3Api()).data;
-      this.$patch({ conversationsv3: result });
     },
 
     async fetchConversationHistory(conversation_id: string) {
@@ -65,53 +59,6 @@ const useConversationStore = defineStore("conversation", {
         },
       });
     },
-    async fetchConversationV3History(chat_id: string) {
-      // 解析历史记录
-      if (this.conversationV3DetailMap.hasOwnProperty(chat_id)) {
-        return this.conversationV3DetailMap[chat_id];
-      }
-
-      const result = (await getConversationV3HistoryApi(chat_id)).data;
-
-      const conv_detail: ChatConversationDetail = {
-        id: chat_id,
-        // title: result.title,
-        create_time: result.create_time,
-        mapping: {},
-        messageList: []
-        // model_name: result.model_name,
-      };
-
-      for(let i = 0;i < result.length;i++){
-        // const random_strid_content= Math.random().toString(36).substring(2, 16);
-        // conv_detail.mapping![result[i].id] = {
-        //   id: result[i].id+random_strid_content,
-        //   message: result[i].content,
-        //   author_role: "user"
-        // }
-        // const random_strid_response = Math.random().toString(36).substring(2, 16);
-        // conv_detail.mapping![result[i].id+random_strid_response] = {
-        //   id: result[i].id + random_strid_response,
-        //   message: result[i].response,
-        // }
-        conv_detail.messageList?.push({
-          id: result[i].id,
-          message: result[i].content,
-          author_role: "user"
-        })
-
-        conv_detail.messageList?.push({
-          id: result[i].id,
-          message: result[i].response
-        })
-
-      }
-      this.$patch({
-        conversationV3DetailMap: {
-          [chat_id]: conv_detail,
-        },
-      });
-    },
 
     addConversation(conversation: ConversationSchema) {
       this.conversations.push(conversation);
@@ -124,26 +71,12 @@ const useConversationStore = defineStore("conversation", {
         (conv: any) => conv.conversation_id !== conversation_id
       );
     },
-    async deleteConversationV3(chat_id: string) {
-      await deleteConversationV3Api(chat_id);
-      delete this.conversationV3DetailMap[chat_id];
-      this.conversationsv3 = this.conversationsv3.filter(
-        (conv: any) => conv.chat_id !== chat_id
-      );
-    },
 
     async changeConversationTitle(conversation_id: string, title: string) {
       await setConversationTitleApi(conversation_id, title);
       await this.fetchAllConversations();
       if (this.conversationDetailMap.hasOwnProperty(conversation_id)) {
         this.conversationDetailMap[conversation_id].title = title;
-      }
-    },
-    async changeConversationV3Title(chat_id: string, title: string) {
-      await setConversationV3TitleApi(chat_id, title);
-      await this.fetchAllConversationsv3();
-      if (this.conversationV3DetailMap.hasOwnProperty(chat_id)) {
-        this.conversationV3DetailMap[chat_id].title = title;
       }
     },
     

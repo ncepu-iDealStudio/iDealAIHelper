@@ -20,29 +20,6 @@ export function getConvMessageListFromId(conversation_id: string | null) {
   return result;
 }
 
-export function getConvV3MessageListFromId(conversation_id: string | null) {
-  const conversationStore = useConversationStore();
-  let result:any = [];
-  if (!conversation_id) return [];
-  const convDetail: ChatConversationDetail =
-    conversationStore.conversationV3DetailMap[conversation_id];
-  // if (conv) {
-  //   let x = conv.current_node as any;
-  //   while (!!x) {
-  //     if (conv.mapping[x].message) result.push(conv.mapping[x]);
-  //     x = conv.mapping[x].parent;
-  //   }
-  //   result.reverse();
-  // }
-  if(convDetail){
-    // for(let conv in convDetail.mapping){
-    //   result.push(convDetail.mapping[conv])
-    // }
-    result = convDetail.messageList
-  }
-  return result;
-}
-
 export const getModelNameFromConv = (
   conv: ChatConversationDetail
 ): string | null => {

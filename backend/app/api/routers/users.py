@@ -11,7 +11,7 @@ from utils.exceptions import AuthorityDenyException, InvalidParamsException, Dat
 from app.models.userModel import User
 from utils.response import response, get_http_message
 from app.schemas.userSchema import UserRead, UserUpdate, UserCreate, LimitSchema, AccountSchema, KeySchema, \
-    UserResetPassword
+    UserResetPassword, UserAllowContext, UserContextThreshold
 from app.controller.userController import auth_backend, fastapi_users, current_active_user, \
     get_user_manager_context, current_super_user
 
@@ -68,6 +68,68 @@ async def get_user_account(user_id: int = None, _user: User = Depends(current_ac
         user = user.scalars().all()[0]
         if user is None:
             raise InvalidParamsException("errors.userNotFound")
+        results = jsonable_encoder(user)
+        return results
+
+
+@router.patch("/user/{user_id}/allow_context", tags=["user"], response_model=UserAllowContext)
+async def set_context(userAllowContext: UserAllowContext, user_id: int = None, _user: User = Depends(current_active_user), ):
+    """
+    context switch
+
+    :param userAllowContext:
+
+    :param user_id:
+
+    :param _user:
+
+    :return:
+    """
+    async with get_async_session_context() as session:
+        user = await session.execute(select(User).where(User.id == user_id))
+        user = user.scalars().all()[0]
+        if user is None:
+            raise InvalidParamsException("errors.userNotFound")
+
+        from utils.schema import schema_to_model
+        schema_to_model(model=user, schema=userAllowContext)
+
+        try:
+            session.add(user)
+            await session.commit()
+        except Exception as e:
+            raise DataBaseException(str(e))
+        results = jsonable_encoder(user)
+        return results
+
+
+@router.patch("/user/{user_id}/set_threshold", tags=["user"], response_model=UserContextThreshold)
+async def set_threshold(userContextThreshold: UserContextThreshold, user_id: int = None, _user: User = Depends(current_active_user), ):
+    """
+    set context threshold
+
+    :param userContextThreshold
+
+    :param user_id:
+
+    :param _user:
+
+    :return:
+    """
+    async with get_async_session_context() as session:
+        user = await session.execute(select(User).where(User.id == user_id))
+        user = user.scalars().all()[0]
+        if user is None:
+            raise InvalidParamsException("errors.userNotFound")
+
+        from utils.schema import schema_to_model
+        schema_to_model(model=user, schema=userContextThreshold)
+
+        try:
+            session.add(user)
+            await session.commit()
+        except Exception as e:
+            raise DataBaseException(str(e))
         results = jsonable_encoder(user)
         return results
 

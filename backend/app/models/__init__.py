@@ -11,6 +11,7 @@ from .userModel import User
 from .conversationModel import Conversation
 from .chatDetailModel import ChatDetail
 from .chatModel import Chat
+from .promptModel import Prompt
 
 
 

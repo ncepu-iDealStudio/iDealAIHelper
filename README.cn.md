@@ -1,6 +1,25 @@
-# iDealAIHelper（中文名：iDealAI助手）
+<h1 align="center"><img src=".github/images/chatgpt-icon.svg" height="30" width="30"> iDealAIHelper</h1>
 
-#### 介绍
+<div align="center">
+
+[English](README.md) / 简体中文
+
+One-Click to deploy well-designed ChatGPT web UI tool program.
+
+快速免费部署你的 ChatGPT 网页应用，合租共享独立使用自由选择。
+
+[Demo](http://ai.quwancode.com) / [Issues](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [Buy Me a Coffee](https://www.buymeacoffee.com/iDealStudio)
+
+[演示](http://ai.quwancode.com) / [反馈](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [打赏开发者](.github/images/support.png)
+
+
+![cover](.github/images/cover.png)
+
+</div>
+
+### 介绍
+<hr/>
+
 iDealAI助手是一款封装了各类AI工具接口的套壳Web系统；目前已经对接集成了ChatGPT API接口(其他AI平台的接口支持，正在开发中)；
 
 主要作用是可以以接口账号合租的方式使用AI工具；不仅适合个人与他人合租ChatGPT账号使用，也适合国内企业独立部署给员工使用，解决国内无法访问openai的接口的问题；
@@ -22,7 +41,9 @@ iDealAI助手是一款封装了各类AI工具接口的套壳Web系统；目前�
 
 在部署方面，做到尽量简化，让使用者能快速部署，开箱即用；
 
-#### 软件架构
+### 软件架构
+<hr/>
+
 本系统分为前端部分和后端接口部分：
 
 1 前端采用Vue3+TypeScript+Vite+naive-ui等技术；
@@ -31,9 +52,11 @@ iDealAI助手是一款封装了各类AI工具接口的套壳Web系统；目前�
 
 这两部分都能实现容器化快速部署；
 
-#### 安装使用
+### 安装使用
+<hr/>
 
-##### Docker方式部署
+#### Docker方式部署
+
 1. 确保在服务器上安装了docker以及docker-compose软件；
 2. 下载本项目：
 `git clone https://gitee.com/ncepu-bj/iDeal-AI-Helper.git` ，
@@ -43,7 +66,7 @@ iDealAI助手是一款封装了各类AI工具接口的套壳Web系统；目前�
 4. 在项目根目录下运行：`docker-compose up -d`命令，如果出错请查看docker-compose版本，版本过低则需要升级。容器端口在docker-compose.yaml文件中有所定义，默认映射为8080端口，可以根据需求进行修改；
 5. 访问`http://[your server ip]:8080`，可以看到登录界面(输入默认账号/密码:admin/admin)，如果可以正常登录，则部署完成。
 
-##### 手工方式部署
+#### 手工方式部署
 
 ##### 前端页面打包编译：
 
@@ -80,7 +103,9 @@ server {
 ```
 5. 启动Web服务器Nginx后，访问`http://[your server ip]`，可以看到登录界面(输入默认账号/密码:admin/admin)，如果可以正常登录，则部署完成。
 
-#### 系统特点
+### 系统特点
+<hr/>
+
 功能丰富的前端交互操作
 1. 美观简洁的 web 界面，使用 naive-ui
 2. 适配夜间模式
@@ -103,13 +128,16 @@ server {
 5. 实时查看日志
 6. 记录请求及对话统计信息
 
-#### 使用说明
+### 使用说明
+<hr/>
+
 部署完成后，通过ip地址和端口访问；系统默认已经添加了2个用户；
 先使用管理员账号（admin/admin）登录；然后进行用户的创建；
 
 详细使用说明，见帮助文档；
 
-#### 参与贡献
+### 参与贡献
+<hr/>
 
 1.  Fork 本仓库
 2.  新建 Feat_xxx 分支
@@ -117,7 +145,11 @@ server {
 4.  新建 Pull Request
 
 
-#### 捐助和支持
-如果您觉得这个项目对您的工作有帮助，可以通过扫描下面的赞赏码进行捐助，鼓励我们将工作做的更好！
+### 捐助和支持
+<hr/>
 
-<img src=".github/images/donate.png" alt="donate" width="200" height="200" />
+如果您觉得这个项目对您的工作有帮助了✨，可以通过扫描下面的赞赏码进行捐助，鼓励我们将工作做的更好！
+<div align="center">
+<img src=".github/images/support.png" alt="support" width="200" height="200" />
+<p>~支付宝支持我们的项目👆~</p>
+</div>

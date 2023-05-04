@@ -32,4 +32,5 @@ class ChatDetail(Base):
     content: Mapped[Optional[str]] = mapped_column(comment="对话内容")
     response: Mapped[Optional[str]] = mapped_column(comment="对话响应")
     is_valid: Mapped[bool] = mapped_column(Boolean, default=True, comment="是否有效")
+    is_image: Mapped[bool] = mapped_column(Boolean, default=False, comment="是否是图片")
     create_time: Mapped[Optional[DateTime]] = mapped_column(DateTime, default=None, comment="创建时间")

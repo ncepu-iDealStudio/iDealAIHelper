@@ -4,6 +4,9 @@ enum ApiUrl {
   Logout = "/auth/logout",
   UserInfo = "/user/me",
   updateApiKey = "user",
+  User = "user",
+  Prompt = "prompt",
+  Billing_info="billing_info",
 
   Conversation = "/conv",
   Conversationv3 = "/chat",

@@ -22,7 +22,11 @@
       <div
         v-show="showRawContent"
         class="my-3 w-full whitespace-pre-line text-gray-500"
+        v-if="!props.message.is_image"
       >{{ props.message.message }}</div>
+      <div v-else v-show="showRawContent">
+        <img :src="props.message.message" />
+      </div>
       <div class="hide-in-print">
         <n-button
           text
@@ -101,7 +105,17 @@ const renderedContent = computed(() => {
   if (!mdLoaded.value) {
     return "";
   }
-  const result = md.render(props.message.message || "");
+  let result: any = "";
+  if (props.message.is_image) {
+    const imageUrl = props.message.message;
+    const altText = "";
+    const imageTitle = "";
+    // const imageStyle = "width: 200px; height: 200px;";
+    // const imageMarkdown = `![${altText}](${imageUrl} "${imageTitle}" =${imageStyle})`;
+    result = md.render(`![${altText}](${imageUrl} ${imageTitle})`);
+  } else {
+    result = md.render(props.message.message || "");
+  }
   return addButtonsToPreTags(result);
 });
 

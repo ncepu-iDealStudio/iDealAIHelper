@@ -4,7 +4,7 @@
     <div class="h-full flex flex-col md:flex-row md:space-x-4">
       <!-- 左栏 -->
       <div class="md:w-1/4 md:min-w-1/4 w-full flex flex-col space-y-4 md:h-full">
-        <StatusCard />
+        <StatusCard @chose-prompt="show" />
         <n-card class="h-full flex-col left-col" content-style="padding: 4px;">
           <div class="flex box-content m-2" v-if="!newConversation">
             <n-button secondary strong type="primary" class="flex-1" @click="makeNewConversation" :disabled="loadingBar">
@@ -114,6 +114,9 @@ import { computed, h, onMounted, ref, watch } from "vue";
 import { Dialog, LoadingBar, Message } from "@/utils/tips";
 
 import StatusCard from "./components/StatusCard.vue";
+// import StatusCard from "./components/StatusCard copy.vue";
+
+
 
 import { ChatConversationDetail, ChatMessage } from "@/types/custom";
 import { AskInfo, getAskWebsocketApiUrl } from "@/api/chat";
@@ -147,6 +150,7 @@ import { getConvMessageListFromId } from "@/utils/conversation";
 const themeVars = useThemeVars();
 
 const { t } = useI18n();
+
 
 const rootRef = ref();
 const menuRef = ref(null);
@@ -338,6 +342,12 @@ watch(currentConversationId, (newVal, oldVal) => {
     console.log(localStorage.getItem('id'))
   }
 });
+
+// 接收子组件 传递的 prompt 选项
+const show = (e:any) => {
+  inputValue.value = e
+  console.log(e)
+}
 
 const handleChangeConversation = (key: string | null) => {
   // TODO: 清除当前已询问、得到回复，但是发生错误的两条消息
