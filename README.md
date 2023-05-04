@@ -20,9 +20,7 @@ One-Click to deploy well-designed ChatGPT web UI tool program.
 ### Description
 <hr/>
 
-iDealAI Assistant is a web-based system that encapsulates various AI tool interfaces. It has integrated the ChatGPT API interface (support for other AI platforms’ interfaces is under development).
-
-ChatGPT supports a shared mode using an openai account and also supports a personal independent billing method using one’s own API_key. It is suitable not only for individuals and others to share ChatGPT accounts, but also for domestic enterprises to independently deploy and provide to employees for use, solving the problem of inability to access openai’s interfaces in China.
+iDealAI Assistant is a Web UI system that encapsulates the ChatGPT API interface. This system is not only suitable for personal and shared ChatGPT account usage, but also for domestic enterprises that apply for API_key and independently deploy it for their employees, thereby resolving the issue of being unable to access openai’s interface in China.
 
 
 There are two ways to use the system with ChatGPT:

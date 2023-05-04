@@ -20,9 +20,7 @@ One-Click to deploy well-designed ChatGPT web UI tool program.
 ### 介绍
 <hr/>
 
-iDealAI助手是一款封装了各类AI工具接口的套壳Web系统；目前已经对接集成了ChatGPT API接口(其他AI平台的接口支持，正在开发中)；
-
-主要作用是可以以接口账号合租的方式使用AI工具；不仅适合个人与他人合租ChatGPT账号使用，也适合国内企业独立部署给员工使用，解决国内无法访问openai的接口的问题；
+iDealAI助手是一款封装了ChatGPT API接口的Web UI系统；该系统不仅适合个人与他人合租ChatGPT账号共享方式使用，也适合国内企业申请API_key后，独立部署给企业员工使用，解决国内无法访问openai的接口的问题；
 
 系统使用chatGPT的方式有2种：
 
@@ -148,8 +146,8 @@ server {
 ### 捐助和支持
 <hr/>
 
-如果您觉得这个项目对您的工作有帮助了✨，可以通过扫描下面的赞赏码进行捐助，鼓励我们将工作做的更好！
+如果您觉得这个项目对您的工作有帮助✨，可以通过扫描下面的二维码进行捐助，鼓励我们将工作做的更好！
 <div align="center">
 <img src=".github/images/support.png" alt="support" width="200" height="200" />
-<p>~支付宝支持我们的项目👆~</p>
+<p>~支付宝支持一下这个项目👆~</p>
 </div>
