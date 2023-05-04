@@ -15,16 +15,13 @@ from utils.exceptions import InvalidParamsException
 
 class ChatSchema(BaseModel):
     id: int = -1
-    chat_id: uuid.UUID = None
+    chat_id: str = None
     title: str = None
     user_id: int = None
     is_valid: bool = None
     model_name: ChatModels = None
     create_time: datetime.datetime = None
     active_time: datetime.datetime = None
-
-    class Config:
-        use_enum_values = True
 
 
 class CreateChatSchema(BaseModel):

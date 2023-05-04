@@ -9,6 +9,7 @@
 import time
 import uuid
 from datetime import datetime
+from typing import List
 
 import requests
 from fastapi import APIRouter, Depends, WebSocket
@@ -26,7 +27,7 @@ from app.controller.userController import current_active_user, websocket_auth
 from app.models.chatDetailModel import ChatDetail
 from app.models.chatModel import Chat
 from app.models.userModel import User
-from app.schemas.chatSchema import CreateChatSchema
+from app.schemas.chatSchema import CreateChatSchema, ChatSchema
 from app.schemas.chatDetailSchema import GenImageSchema
 from config.enums import ChatStatus, ChatModels
 from db.database import get_async_session_context
@@ -41,7 +42,7 @@ router = APIRouter()
 
 
 # 获取chat列表
-@router.get("/chat", tags=["chat"])
+@router.get("/chat", tags=["chat"], response_model=List[ChatSchema])
 async def get_all_chat(_user: User = Depends(current_active_user)):
     """get chat lists of current User
 
