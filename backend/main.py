@@ -2,7 +2,6 @@ import uvicorn
 from config.globals import config
 from utils.logger import get_log_config
 from app import create_app
-# from app import app
 
 app = create_app()
 if __name__ == "__main__":
