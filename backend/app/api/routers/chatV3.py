@@ -131,7 +131,7 @@ async def delete_chat(chat_id: str = None, _user: User = Depends(current_active_
 
 # 获取chat会话历史信息
 @router.get("/chat/{chat_id}", tags=["chat"])
-async def get_chat_history(chat_id: str, user: User = Depends(current_active_user)):
+async def get_chat_history(chat_id: str, _user: User = Depends(current_active_user)):
     """get history of a chat
 
     :param chat_id: id of the chat
@@ -146,7 +146,7 @@ async def get_chat_history(chat_id: str, user: User = Depends(current_active_use
         if chats is None:
             raise InvalidParamsException("errors.chatsNotFound")
         for chat_detail in chats:
-            if not user.is_superuser and chat_detail.user_id != user.id:
+            if not _user.is_superuser and chat_detail.user_id != _user.id:
                 raise AuthorityDenyException
         result = jsonable_encoder(chats)
         return response(200, get_http_message(200), result)
