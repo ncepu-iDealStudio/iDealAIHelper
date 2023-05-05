@@ -27,7 +27,7 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(32), unique=True, index=True, comment="用户名")
     api_key: Mapped[str] = mapped_column(String(64), nullable=True, default=None, comment="api-key值")
     nickname: Mapped[str] = mapped_column(String(64), comment="昵称")
-    email: Mapped[str]
+    email: Mapped[str]=mapped_column(String(64), comment="邮箱")
     active_time: Mapped[Optional[DateTime]] = mapped_column(DateTime, default=None, comment="最后活跃时间")
 
     chat_status: Mapped[ChatStatus] = mapped_column(Enum(ChatStatus), default=ChatStatus.idling, comment="对话状态")
