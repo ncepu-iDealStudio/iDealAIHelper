@@ -26,7 +26,7 @@ class Conversation(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     conversation_id: Mapped[str] = mapped_column(String(36), index=True, unique=True)
-    title: Mapped[Optional[str]] = mapped_column(comment="对话标题")
+    title: Mapped[Optional[str]] = mapped_column(String(20),comment="对话标题")
     user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("user.id"), comment="发起用户id")
     user: Mapped["User"] = relationship(back_populates="conversations")
     is_valid: Mapped[bool] = mapped_column(Boolean, default=True, comment="是否有效")
