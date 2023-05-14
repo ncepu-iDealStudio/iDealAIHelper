@@ -43,8 +43,8 @@ export default defineConfig({
     open: true,
     https: {
       // 主要是下面两行的配置文件，不要忘记引入 fs 和 path 两个对象
-      cert: fs.readFileSync(fileURLToPath(new URL("src/ssl/cert.crt", import.meta.url))),
-      key: fs.readFileSync(fileURLToPath(new URL("src/ssl/cert.key", import.meta.url)))
+      cert: fs.readFileSync(fileURLToPath(new URL("src/config/ssl/cert.crt", import.meta.url))),
+      key: fs.readFileSync(fileURLToPath(new URL("src/config/ssl/cert.key", import.meta.url)))
     },
     proxy: {
       "/api": {
