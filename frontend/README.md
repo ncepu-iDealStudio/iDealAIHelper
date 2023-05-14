@@ -1,37 +1,170 @@
-# about
-this project fork from https://github.com/moeakwak/chatgpt-web-share 
-A web application that allows multiple users to share one ChatGPT account at the same time, developed using unofficial ChatGPT API & fastapi & vue3. Supports GPT-4! 共享 ChatGPT 账号给多用户同时使用，可用于朋友之间共享或合租 ChatGPT 账号。
+<h1 align="center"><img src=".github/images/chatgpt-icon.svg" height="30" width="30"> iDealAIHelper</h1>
 
-使用 FastAPI + Vue3 开发。支持 ChatGPT Plus / 使用 GPT-4 / 用户请求限制等功能。
+<div align="center">
 
-在原项目前后端的基础上，我们做了相当大的改变和扩展；具体包括：
- 1. 增加了前端的prompt提示功能；
- 2. 增强了PC和移动端访问的兼容性；
- 3. 用户可以独立使用自己的key；也可以共享给他人使用；
- 4. 更好的私有化部署；
- 5. 更好的代理方式，以避免国内网络对openai接口的屏蔽；
- 6. 扩充为智能助手，增加了其他AI产品的对接和支持；
+English / [简体中文](README.cn.md)
 
-# Vue 3 + TypeScript + Vite
+One-Click to deploy well-designed ChatGPT web UI tool program.
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+快速免费部署你的 ChatGPT 网页应用，合租共享独立使用自由选择。
 
-## Recommended IDE Setup
+[Demo](http://ai.quwancode.com) / [Issues](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues)  / [Buy Me a Coffee](https://www.buymeacoffee.com/iDealStudio)
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support For `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## How to devlope in local？
+[演示](http://ai.quwancode.com) / [反馈](https://github.com/ncepu-iDealStudio/iDealAIHelper/issues) / [打赏开发者](.github/images/support.png)
 
 
-## How to deploy this project?
+![cover](.github/images/cover.png)
+
+</div>
+
+### Description
+<hr/>
+
+iDealAI Assistant is a Web UI system that encapsulates the ChatGPT API interface. This system is not only suitable for personal and shared ChatGPT account usage, but also for domestic enterprises that apply for API_key and independently deploy it for their employees, thereby resolving the issue of being unable to access openai’s interface in China.
+
+
+There are two ways to use the system with ChatGPT:
+
+1 Shared mode
+It supports sharing one openai account for everyone to use together. However, each person has an independent system login account, and the sessions can be stored separately.
+
+2 Independent mode
+It supports individuals using their own API_key to use the system, and provides corresponding account management, history session storage, and export functions.
+
+This project thanks the work of experts such as acheong08. The shared mode basically continues his work, and we focus on expanding the session processing and front-end development docking work under the independent mode.
+
+In terms of deployment, we try to simplify it as much as possible so that users can quickly deploy and plug-and-play.
+
+### Software Architecture
+<hr/>
+
+The system is divided into two parts: the front-end and the back-end interface.
+
+1 The front-end uses technologies such as Vue3, TypeScript, Vite, and Naive-UI.
+
+2 The back-end uses the Python programming language and the FastAPI framework. To simplify deployment, the database uses SQLite storage, which can also be extended to MySQL.
+
+Both parts can be quickly deployed in containers.
+
+### Installation
+<hr/>
+
+##### Deploy using Docker.
+
+1. Make sure that docker and docker-compose software are installed on the server.
+
+2. download project：
+`git clone https://gitee.com/ncepu-bj/iDeal-AI-Helper.git` ，
+ Enter the folder named "iDeal-AI-Helper"：
+ `cd iDeal-AI-Helper`
+
+3. Modify the system configuration file：`deploy/config.conf`.If you enable the shared mode, you must configure the chatgpt_access_token parameter.
+note：how to get chatgpt_access_token parameter ：login [chat.openai.com]()，open [https://chat.openai.com/api/auth/session]()，you can get accessToken value，then copy it into your configuration file；
+
+4. Run the command docker-compose up -d in the project root directory. If an error occurs, please check the docker-compose version. If the version is too low, an upgrade is required. The container port is defined in the docker-compose.yaml file and is mapped to port 8080 by default. It can be modified according to requirements.
+
+5. Access http://[your server ip]:8080 to see the login page (enter the default account/password: admin/admin). If you can log in successfully, the deployment is complete.
+
+##### Manual Deployment
+
+
+##### Frontend page packing and compiling:
+
+1. Go to the frontend folder “frontend”; If there is already a compiled static page folder “dist”, go directly to the “Backend Deployment” section. Otherwise, proceed to the next step to package and compile the frontend page.
+2. Run npm install and npm run build to package and compile the frontend static page. The compiled files will be generated in the frontend/dist folder.
+
+##### Backend Deployment:
+
+1. Create a Python virtual environment (recommended version V3.10) and activate it;
+2. Enter the backend folder, install system dependencies by running: pip install -r requirements.txt;
+3. In the backend folder, run: uvicorn main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips '*' --log-config config/logging_config.yaml;
+4. Use the frontend/dist/ directory as the publishing directory for the web. You can configure the frontend and backend services using nginx, as shown in the following configuration example：
+
+```
+server {
+	listen 80;
+	server_name [your server name];
+
+    # ui
+    location / {
+        root [your project abspath]/frontend/dist;
+        try_files $uri $uri/ /index.html;
+    }
+    # api
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+5. After starting the Nginx web server, visit http://[your server ip] to see the login page (enter default username/password: admin/admin). If you can log in successfully, then the deployment is complete.
+
+
+### System features
+<hr/>
+
+Rich frontend interactive operations:
+1. A beautiful and concise web interface, using naive-ui
+2. Adaptable to a dark mode
+3. Support for one-click copying of response content or code content
+Support for displaying images/tables/mathematical formulas/code syntax highlighting in responses
+4. One-click export of conversations as Markdown files
+5. Dynamically display response content
+6. Support for stopping conversation generation
+7. Multi-user shared management
+
+Share a ChatGPT account, support for creating and managing multiple user accounts:
+1. Different users’ ChatGPT conversations are separated from each other and do not affect each other
+2. ultiple users requesting at the same time will be queued for processing
+
+Perfect management functions:
+1. Administrators can set the maximum number of conversations for users, conversation frequency limits, etc.
+2. rovide real-time updates of service usage status to avoid peak usage
+Modify user conversation restrictions
+3. Manage conversations/view member conversation records/assign.
+4. conversations to specific users
+5. Real-time view of logs
+6. Record request and conversation statistics
+
+
+###  Instructions for use
+<hr/>
+
+After deployment, access the system via the IP address and port. The system already comes with 2 default users.
+
+First, log in using the administrator account (admin/admin) and then create new user accounts.
+
+For detailed instructions, please refer to the help documentation.
+
+### Contributor
+<hr/>
+
+[Contributors](https://github.com/ncepu-iDealStudio/iDealAIHelper/graphs/contributors)
+
+### How to Contribution:
+<hr/>
+
+1. Fork this repository
+2. Create a new branch called Feat_xxx
+3. Submit your code changes
+4. Create a new Pull Request
+
+
+
+### Donation and Support
+<hr/>
+
+If you find this project helpful for your work, you can donate and support us by scanning the QR code below. Your encouragement will motivate us to make it even better! 
+<div align="center">
+<img src=".github/images/donate.png" alt="donate" width="200" height="200" />
+<p>if you like our projects, buy us a coffee</p>
+</div>
+<div align="center">
+<img src=".github/images/support.png" alt="support" width="200" height="200" />
+<p>if you like our projects, support us with Alipay</p>
+</div>
