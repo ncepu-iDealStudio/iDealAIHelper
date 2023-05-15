@@ -1,6 +1,6 @@
 import { LimitSchema, UserCreate, UserRead, UserUpdate } from "@/types/schema";
 import axios from "axios";
-import ApiUrl from "./url";
+
 
 export interface LoginData {
   username: string;
@@ -11,7 +11,7 @@ export function loginApi(data: LoginData) {
   const formData = new FormData();
   formData.set("username", data.username);
   formData.set("password", data.password);
-  return axios.post<any>(ApiUrl.Login, formData, {
+  return axios.post<any>("/auth/login", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -19,28 +19,28 @@ export function loginApi(data: LoginData) {
 }
 
 export function registerApi(userInfo: UserCreate) {
-  return axios.post<UserRead>(ApiUrl.Register, userInfo);
+  return axios.post<UserRead>("/auth/register", userInfo);
 }
 
 export function logoutApi() {
-  return axios.post<any>(ApiUrl.Logout);
+  return axios.post<any>("/auth/logout");
 }
 
 export function getUserInfoApi() {
-  return axios.get<UserRead>(ApiUrl.UserInfo);
+  return axios.get<UserRead>("/user/me");
 }
 
 export function getAllUserApi() {
-  return axios.get<UserRead[]>(ApiUrl.UserList);
+  return axios.get<UserRead[]>("/user");
 }
 
 export function deleteUserApi(user_id: number) {
-  return axios.delete(ApiUrl.UserList + `/${user_id}`);
+  return axios.delete("/user" + `/${user_id}`);
 }
 
 // 修改密码
 export function resetUserPasswordApi(user_id: number, data: any) {
-  return axios.patch(ApiUrl.UserList + `/${user_id}/reset-password`, data, {
+  return axios.patch("/user" + `/${user_id}/reset-password`, data, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -49,7 +49,7 @@ export function resetUserPasswordApi(user_id: number, data: any) {
 
 // 修改 api_key
 export function updateUserApiKey(user_id: number, data:any) {
-  return axios.patch(ApiUrl.updateApiKey + `/${user_id}/set_api_key` , data, {
+  return axios.patch("user" + `/${user_id}/set_api_key` , data, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -58,7 +58,7 @@ export function updateUserApiKey(user_id: number, data:any) {
 
 // 是否开启上下文
 export function AllowContest(user_id: number, data:any) {
-  return axios.patch(ApiUrl.User + `/${user_id}/allow_context` , data, {
+  return axios.patch("user" + `/${user_id}/allow_context` , data, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -67,7 +67,7 @@ export function AllowContest(user_id: number, data:any) {
 
 // 上下文阈值/条数
 export function SetThreshold(user_id: number, data:any) {
-  return axios.patch(ApiUrl.User + `/${user_id}/set_threshold` , data, {
+  return axios.patch("user" + `/${user_id}/set_threshold` , data, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -76,13 +76,13 @@ export function SetThreshold(user_id: number, data:any) {
 
 // 获取 apiKey 统计
 export function getBillingInfoAPI() {
-  return axios.get<any>(ApiUrl.Billing_info);
+  return axios.get<any>("billing_info");
 } 
 
 export function updateUserLimitApi(user_id: number, limit: LimitSchema) {
-  return axios.post(ApiUrl.UserList + `/${user_id}/limit`, limit);
+  return axios.post("/user" + `/${user_id}/limit`, limit);
 }
 
 // export function updateUserInfoApi(userInfo: Partial<UserUpdate>) {
-//   return axios.patch<UserRead>(ApiUrl.UserInfo, userInfo);
+//   return axios.patch<UserRead>("/user/me", userInfo);
 // }
