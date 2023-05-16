@@ -69,6 +69,11 @@ const router = createRouter({
           component: () => import("@/views/admin/system_manager.vue"),
         },
         {
+          path: "prompt",
+          name: "promptManagement",
+          component: () => import("@/views/admin/prompt_manager.vue"),
+        },
+        {
           path: "user",
           name: "userManagement",
           component: () => import("@/views/admin/user_manager.vue"),

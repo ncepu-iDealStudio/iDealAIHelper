@@ -10,7 +10,7 @@
     </n-button>
   </div>
 
-  <n-data-table :scroll-x="1400" size="small" :columns="columns" :data="data" :bordered="true" :pagination="{
+  <n-data-table :scroll-x="800" size="small" :columns="columns" :data="data" :bordered="true" :pagination="{
     pageSize: 20
   }" />
 </template>
@@ -92,27 +92,27 @@ const columns: DataTableColumns<UserRead> = [
       return getCountTrans(row.available_ask_count!);
     },
   },
-  {
-    title: t("commons.availableGPT4AskCount"),
-    key: 'available_gpt4_ask_count',
-    render(row) {
-      return getCountTrans(row.available_gpt4_ask_count!);
-    }
-  },
-  {
-    title: t("commons.canUsePaidModel"),
-    key: 'can_use_paid',
-    render(row) {
-      return row.can_use_paid ? t("commons.yes") : t("commons.no")
-    }
-  },
-  {
-    title: t("commons.canUseGPT4Model"),
-    key: 'can_use_gpt4',
-    render(row) {
-      return row.can_use_gpt4 ? t("commons.yes") : t("commons.no")
-    }
-  },
+  // {
+  //   title: t("commons.availableGPT4AskCount"),
+  //   key: 'available_gpt4_ask_count',
+  //   render(row) {
+  //     return getCountTrans(row.available_gpt4_ask_count!);
+  //   }
+  // },
+  // {
+  //   title: t("commons.canUsePaidModel"),
+  //   key: 'can_use_paid',
+  //   render(row) {
+  //     return row.can_use_paid ? t("commons.yes") : t("commons.no")
+  //   }
+  // },
+  // {
+  //   title: t("commons.canUseGPT4Model"),
+  //   key: 'can_use_gpt4',
+  //   render(row) {
+  //     return row.can_use_gpt4 ? t("commons.yes") : t("commons.no")
+  //   }
+  // },
   {
     title: t("commons.email"),
     key: 'email'
