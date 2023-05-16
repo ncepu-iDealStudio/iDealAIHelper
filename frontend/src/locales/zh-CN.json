@@ -86,6 +86,7 @@
     "conversation": "对话",
     "enterConversation": "进入对话",
     "systemManagement": "系统管理",
+    "promptManagement":"prompt管理",
     "statisticsInfo": "统计信息",
     "userCountAndOnlineCount": "活跃用户 / 总用户",
     "conversationCount": "有效 / 总对话数量",

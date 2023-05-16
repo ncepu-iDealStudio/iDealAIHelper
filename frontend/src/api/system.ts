@@ -1,19 +1,19 @@
 import { LogFilterOptions } from "@/types/schema";
 import axios from "axios";
-import ApiUrl from "./url";
+
 
 export function getSystemInfoApi() {
-  return axios.get(ApiUrl.SystemInfo);
+  return axios.get("/system/info");
 }
 
 export function getRequestStatisticsApi() {
-  return axios.get(ApiUrl.SystemRequestStatistics);
+  return axios.get("/system/request_statistics");
 }
 
 export function getServerLogsApi(options: LogFilterOptions | null) {
-  return axios.post(ApiUrl.ServerLogs, options);
+  return axios.post("/system/server_logs", options);
 }
 
 export function getProxyLogsApi(options: LogFilterOptions | null) {
-  return axios.post(ApiUrl.ProxyLogs, options);
+  return axios.post("/system/proxy_logs", options);
 }

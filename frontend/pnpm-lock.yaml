@@ -919,13 +919,6 @@ packages:
       '@unocss/preset-wind': 0.50.0
     dev: true
 
-  /@unocss/preset-web-fonts/0.50.0:
-    resolution: {integrity: sha512-PxJj6pKhszYN/8LQTLr5dwMjkw5/Vxwp/3fz1eXQGy09lRxbKtrpA+DgVyyfU9b99RU2G5I/VSTSPDncSZsiFQ==}
-    dependencies:
-      '@unocss/core': 0.50.0
-      ofetch: 1.0.1
-    dev: true
-
   /@unocss/preset-wind/0.50.0:
     resolution: {integrity: sha512-e3i4Id5XZpOW6+KQEjALdPIKevBCbAeXfbQ/3NTZu8dpEmITPAfbcrH2hXFTegx+TNlXZsPc3YjtQMuLKVV46w==}
     dependencies:
@@ -2448,7 +2441,7 @@ packages:
       '@unocss/preset-tagify': 0.50.0
       '@unocss/preset-typography': 0.50.0
       '@unocss/preset-uno': 0.50.0
-      '@unocss/preset-web-fonts': 0.50.0
+      
       '@unocss/preset-wind': 0.50.0
       '@unocss/reset': 0.50.0
       '@unocss/transformer-attributify-jsx': 0.50.0

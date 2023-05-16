@@ -9,6 +9,7 @@
 import time
 import uuid
 from datetime import datetime
+from typing import List
 
 import requests
 from fastapi import APIRouter, Depends, WebSocket
@@ -26,7 +27,7 @@ from app.controller.userController import current_active_user, websocket_auth
 from app.models.chatDetailModel import ChatDetail
 from app.models.chatModel import Chat
 from app.models.userModel import User
-from app.schemas.chatSchema import CreateChatSchema
+from app.schemas.chatSchema import CreateChatSchema, ChatSchema
 from app.schemas.chatDetailSchema import GenImageSchema
 from config.enums import ChatStatus, ChatModels
 from db.database import get_async_session_context
@@ -41,7 +42,7 @@ router = APIRouter()
 
 
 # 获取chat列表
-@router.get("/chat", tags=["chat"])
+@router.get("/chat", tags=["chat"], response_model=List[ChatSchema])
 async def get_all_chat(_user: User = Depends(current_active_user)):
     """get chat lists of current User
 
@@ -130,7 +131,7 @@ async def delete_chat(chat_id: str = None, _user: User = Depends(current_active_
 
 # 获取chat会话历史信息
 @router.get("/chat/{chat_id}", tags=["chat"])
-async def get_chat_history(chat_id: str, user: User = Depends(current_active_user)):
+async def get_chat_history(chat_id: str, _user: User = Depends(current_active_user)):
     """get history of a chat
 
     :param chat_id: id of the chat
@@ -145,7 +146,7 @@ async def get_chat_history(chat_id: str, user: User = Depends(current_active_use
         if chats is None:
             raise InvalidParamsException("errors.chatsNotFound")
         for chat_detail in chats:
-            if not user.is_superuser and chat_detail.user_id != user.id:
+            if not _user.is_superuser and chat_detail.user_id != _user.id:
                 raise AuthorityDenyException
         result = jsonable_encoder(chats)
         return response(200, get_http_message(200), result)

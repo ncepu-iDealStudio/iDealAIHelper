@@ -3,7 +3,6 @@ import type { InternalAxiosRequestConfig, AxiosResponse } from "axios";
 import { useUserStore } from "@/store";
 import { Message, Dialog } from "@/utils/tips";
 // import { isLogin } from '@/utils/auth';
-import ApiUrl from "./url";
 import router from "@/router";
 
 import { i18n } from "@/i18n";
@@ -57,7 +56,7 @@ axios.interceptors.response.use(
       });
       if (
         [401].includes(res.code) &&
-        !([ApiUrl.Login, ApiUrl.Logout] as Array<string>).includes(
+        !(["/auth/login", "/auth/logout"] as Array<string>).includes(
           response.config.url || ""
         )
       ) {
