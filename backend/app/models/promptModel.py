@@ -6,6 +6,7 @@
 @time: 2023/4/23 20:57
 
 """
+import datetime
 from typing import Optional
 from .baseModel import Base
 from sqlalchemy import String, DateTime, Enum, Boolean, ForeignKey
@@ -27,4 +28,4 @@ class Prompt(Base):
     title: Mapped[Optional[str]] = mapped_column(String(255), comment="对话标题")
     prompt: Mapped[Optional[str]] = mapped_column(String(5000), comment="提示词")
     is_valid: Mapped[bool] = mapped_column(Boolean, default=True, comment="是否有效")
-    create_time: Mapped[Optional[DateTime]] = mapped_column(DateTime, default=None, comment="创建时间")
+    create_time: Mapped[Optional[DateTime]] = mapped_column(DateTime, default=datetime.datetime.now(), comment="创建时间")
