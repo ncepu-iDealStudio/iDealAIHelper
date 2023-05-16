@@ -25,6 +25,6 @@ class Prompt(Base):
     prompt_parent_id: Mapped[str] = mapped_column(String(36))
     category: Mapped[str] = mapped_column(String(255), comment="分类")
     title: Mapped[Optional[str]] = mapped_column(String(255), comment="对话标题")
-    prompt: Mapped[Optional[str]] = mapped_column(String(255), comment="提示词")
+    prompt: Mapped[Optional[str]] = mapped_column(String(5000), comment="提示词")
     is_valid: Mapped[bool] = mapped_column(Boolean, default=True, comment="是否有效")
     create_time: Mapped[Optional[DateTime]] = mapped_column(DateTime, default=None, comment="创建时间")
