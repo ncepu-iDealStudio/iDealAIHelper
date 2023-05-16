@@ -1,0 +1,2 @@
+import{d as r,a2 as a,O as c,V as i,W as u,c as m,Z as p}from"./vue-c727071f.js";import{u as l}from"./index-c5ed8602.js";import{b as _}from"./naive_ui-1fdfc3bf.js";const w=r({__name:"home",setup(f){const t=a(),o=l();let e="";return o.user?e="conversation":e="login",t.push({name:e}).then(()=>{window.location.reload()}),(s,d)=>{const n=_;return c(),i(n,{class:"h-full mb-6 flex justify-center items-center"},{default:u(()=>[m(p(s.$t("tips.jumpingPage")),1)]),_:1})}}});export{w as default};
+//# sourceMappingURL=home-8907efbf.js.map

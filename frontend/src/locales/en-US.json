@@ -86,6 +86,7 @@
     "conversation": "Conversation",
     "enterConversation": "Enter Conversation",
     "systemManagement": "System Management",
+    "promptManagement":"prompt Management",
     "statisticsInfo": "Statistics",
     "userCountAndOnlineCount": "Active / Total Users",
     "conversationCount": "Valid / Total Conversations",

@@ -1,0 +1,2 @@
+import{o as p}from"./index-c5ed8602.js";function o(){return p.get("prompt")}function n(t){return p.post("/prompt",t)}function i(t,r){return p.patch(`/prompt/${t}`,r,{headers:{"Content-Type":"application/json"}})}function a(t){return p.delete(`/prompt/${t}`)}function m(t){return p.get("/prompt/part-prompt",{params:t})}export{m as a,a as d,o as g,i as r,n as u};
+//# sourceMappingURL=prompt-af8b533b.js.map
