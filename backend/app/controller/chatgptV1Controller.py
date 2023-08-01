@@ -1,7 +1,8 @@
 import config.globals as g
 from config.enums import ChatModels
 from fastapi.encoders import jsonable_encoder
-from app.chatgpt.asyncChatbotV1 import AsyncChatbot
+# from app.chatgpt.asyncChatbotV1 import AsyncChatbot
+from app.chatgpt.V1 import AsyncChatbot
 import asyncio
 from utils.common import get_conversation_model
 
